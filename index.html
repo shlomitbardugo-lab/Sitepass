@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap">
+<title>פתיחת ספק אינטרנט</title>
+<style>
+:root{--bg:#f4f7fc;--card:#fff;--tx:#0f1b33;--mut:#556178;--ac:#1f5fd6;--ac2:#1749a8;--acx:#fff;--bd:#e0e7f2;--bdi:#7d8ba3;--soft:#eaf1ff;--err:#b3261e;--ok:#17703a;--sh:0 1px 2px rgba(15,27,51,.05),0 8px 24px rgba(15,27,51,.06);--glow:0 4px 14px rgba(31,95,214,.3);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1220;--card:#141e33;--tx:#eaf0fb;--mut:#9fadc5;--ac:#5b8ff0;--ac2:#7aa5ff;--acx:#0b1220;--bd:#27355a;--bdi:#6b7fa8;--soft:#16233f;--err:#ff8a80;--ok:#6fdc9a;--sh:none;--glow:none}}
+:root[data-theme="dark"]{--bg:#0b1220;--card:#141e33;--tx:#eaf0fb;--mut:#9fadc5;--ac:#5b8ff0;--ac2:#7aa5ff;--acx:#0b1220;--bd:#27355a;--bdi:#6b7fa8;--soft:#16233f;--err:#ff8a80;--ok:#6fdc9a;--sh:none;--glow:none}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Heebo","Assistant",Arial,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+main{max-width:880px;margin:0 auto;padding:20px 16px 56px}
+header{background:var(--soft);border:1px solid var(--bd);border-radius:20px;padding:20px 28px 34px}
+section{margin-top:28px}
+h1{font-size:2.3rem;font-weight:800;line-height:1.2;letter-spacing:-.01em;margin:26px 0 10px}
+h2{font-size:1.25rem;font-weight:700;margin:0 0 6px}
+section>h2::before,#formWrap h2::before{content:"";display:inline-block;width:4px;height:1.05em;border-radius:2px;background:var(--ac);margin-inline-end:10px;vertical-align:-.15em}
+p{margin:0 0 12px;color:var(--mut)}
+header p{font-size:1.1rem;max-width:560px;margin:0}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:22px;box-shadow:var(--sh)}
+.btn{display:inline-block;background:var(--ac);color:var(--acx);border:0;border-radius:999px;padding:14px 38px;font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer;min-height:48px;box-shadow:var(--glow);transition:background .15s,transform .15s}
+.btn:hover{background:var(--ac2);transform:translateY(-1px)}
+.btn:focus-visible,.field input:focus-visible,.checks input:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.btn:disabled{opacity:.6;cursor:wait;transform:none}
+.logo{display:flex;justify-content:flex-start}
+.logo-img{height:56px;width:auto;display:block}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{border-top:1px solid var(--bd)}
+.checks li:first-child{border-top:0}
+.checks label{display:flex;gap:14px;align-items:center;padding:14px 6px;cursor:pointer;color:var(--tx);border-radius:10px;transition:background .15s}
+.checks label:hover{background:var(--soft)}
+.checks input{width:22px;height:22px;accent-color:var(--ac);flex:none}
+.axis{padding:20px 12px}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr)}
+.steps li{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:0 8px}
+.steps li:not(:last-child)::after{content:"";position:absolute;top:17px;right:calc(50% + 26px);left:calc(-50% + 26px);height:2px;background:var(--bd)}
+.n{flex:none;width:36px;height:36px;border-radius:50%;background:var(--ac);color:var(--acx);display:grid;place-items:center;font-weight:700;box-shadow:0 0 0 5px var(--soft)}
+.steps strong{display:block;color:var(--tx);font-size:.98rem}
+.steps span{color:var(--mut);font-size:.88rem;line-height:1.45}
+.cta{text-align:center;margin-top:24px}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:600;margin-bottom:6px}
+.field input{width:100%;padding:12px;font:inherit;font-size:1rem;color:var(--tx);background:var(--bg);border:1px solid var(--bdi);border-radius:10px}
+.field input[dir="ltr"]{text-align:right}
+.msg{margin:12px 0 0;font-weight:600}
+.msg.err{color:var(--err)}
+.thanks{text-align:center;padding:8px 0}
+.thanks h2{color:var(--ok)}
+[hidden]{display:none!important}
+#form .card{max-width:720px;margin:0 auto;padding:18px 20px}
+#form h2{font-size:1.1rem;margin-bottom:10px}
+#form .field label{font-weight:500;font-size:.85rem;margin-bottom:3px;color:var(--mut)}
+#form .field input{padding:9px 12px;font-size:1rem}
+#form .btn{width:auto;min-height:42px;padding:9px 28px;font-size:.95rem;font-weight:600}
+#form .msg{font-size:.85rem;font-weight:500}
+#lead{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+#lead .field{flex:1 1 200px;margin:0}
+#lead .btn{flex:none}
+#lead .msg{flex-basis:100%;margin:0}
+@media (max-width:640px){.steps{grid-template-columns:1fr;gap:16px}.steps li{flex-direction:row;align-items:flex-start;text-align:right;gap:14px;padding:0}.steps li:not(:last-child)::after{top:40px;bottom:-14px;right:17px;left:auto;width:2px;height:auto}}
+@media (max-width:480px){header{padding:16px 18px 26px;border-radius:16px}h1{font-size:1.7rem}main{padding:14px 12px 40px}.card{padding:16px}}
+.checks label:focus-within{background:var(--soft)}
+#accessibility .card{padding:18px 20px}
+#accessibility h2{font-size:1.1rem}
+#accessibility h3{font-size:1rem;margin:14px 0 4px}
+#accessibility p,#accessibility li{font-size:.92rem}
+#accessibility ul{margin:0 0 8px;padding-inline-start:20px;color:var(--mut)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.thanks h2:focus{outline:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+#a11yBtn{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;width:52px;height:52px;border-radius:50%;border:2px solid var(--card);background:var(--ac);color:var(--acx);display:grid;place-items:center;cursor:pointer;padding:0;box-shadow:0 4px 14px rgba(15,27,51,.35)}
+#a11yBtn svg{width:28px;height:28px;fill:currentColor}
+#a11yBtn:focus-visible,.wbtn:focus-visible{outline:3px solid var(--tx);outline-offset:2px}
+#a11yPanel{position:fixed;left:16px;bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:50;width:min(290px,calc(100vw - 32px));max-height:calc(100vh - 110px);overflow:auto;background:var(--card);color:var(--tx);border:1px solid var(--bdi);border-radius:14px;padding:14px;box-shadow:0 8px 24px rgba(15,27,51,.25)}
+#a11yPanel .wt{font-weight:700;margin:0 0 10px;color:var(--tx)}
+#a11yPanel .wl{font-size:.88rem;color:var(--mut);margin:0 0 8px}
+.wbtn{display:block;width:100%;text-align:right;margin:0 0 8px;padding:10px 12px;min-height:44px;font:inherit;font-size:.95rem;color:var(--tx);background:var(--bg);border:1px solid var(--bdi);border-radius:8px;cursor:pointer;text-decoration:none}
+.wbtn[aria-pressed="true"]{background:var(--ac);color:var(--acx);border-color:var(--ac)}
+.wrow{display:flex;gap:8px}.wrow .wbtn{margin:0}
+#a11yPanel .wbtn:last-child{margin-bottom:0}
+.ul-links a{text-decoration:underline!important}
+:root.hc:not([data-theme="none"]){--bg:#000;--card:#000;--tx:#fff;--mut:#fff;--ac:#ffe600;--acx:#000;--bd:#fff;--bdi:#fff;--soft:#000;--err:#ffb3ad;--ok:#8dffa8;--sh:none;--glow:none}
+</style>
+</head>
+<body>
+<main id="main">
+<header>
+<div class="logo" dir="ltr"><svg class="logo-img" viewBox="0 0 280 84" role="img" aria-label="Sitepass" xmlns="http://www.w3.org/2000/svg"><title>Sitepass</title><g transform="translate(6,14)" fill="none" stroke="var(--ac)" stroke-linecap="round" stroke-linejoin="round"><rect x="1.25" y="1.25" width="53.5" height="53.5" rx="15" fill="var(--soft)" stroke-width="2.5"/><line x1="1.25" y1="19" x2="54.75" y2="19" stroke-width="2"/><circle cx="13" cy="10.2" r="1.7" fill="var(--ac)" stroke="none"/><circle cx="20" cy="10.2" r="1.7" fill="var(--ac)" stroke="none"/><path d="M17 37 L25 45 L40 29" stroke-width="3.5"/></g><text x="78" y="54" font-family="Heebo, Assistant, Arial, sans-serif" font-size="40" font-weight="600" letter-spacing="-0.8" fill="var(--tx)">Site<tspan fill="var(--ac)">pass</tspan></text></svg></div>
+<h1>פתיחת ספק אינטרנט</h1>
+<p>בית עסק יקר, בדקו תחילה אם האתר שלכם כולל את הפרמטרים הנדרשים, והשאירו פרטים להמשך הטיפול.</p>
+</header>
+
+<section aria-labelledby="t-how">
+<h2 id="t-how">איך זה עובד</h2>
+<div class="card axis">
+<ol class="steps" role="list">
+<li><div class="n">1</div><div><strong>בודקים את הפרמטרים</strong><span>מסמנים מה קיים באתר מתוך ארבעת הפרמטרים.</span></div></li>
+<li><div class="n">2</div><div><strong>משאירים שם וכתובת מייל</strong><span>הפרטים מועברים להמשך טיפול.</span></div></li>
+<li><div class="n">3</div><div><strong>האתר עובר לבדיקה</strong><span>בקשתך תטופל תוך 2 ימי עסקים.</span></div></li>
+</ol>
+</div>
+</section>
+
+<section aria-labelledby="t-check">
+<h2 id="t-check">תנאים לפתיחת ספק</h2>
+<p>סמנו את הפרמטרים הקיימים באתר שלכם. ניתן להמשיך גם אם לא סומנו כולם.</p>
+<div class="card" role="group" aria-labelledby="t-check">
+<ul class="checks" role="list">
+<li><label><input type="checkbox" name="takanon"> באתר מופיע תקנון</label></li>
+<li><label><input type="checkbox" name="shipping"> באתר מופיעה מדיניות משלוחים</label></li>
+<li><label><input type="checkbox" name="approval"> באתר מופיע אישור קריאת התקנון</label></li>
+<li><label><input type="checkbox" name="pci"> האתר עומד בתקן PCI</label></li>
+</ul>
+</div>
+</section>
+<div class="cta" style="margin-top:20px"><a class="btn" href="#form" id="cta2" style="text-decoration:none">השאירו פרטים</a></div>
+
+
+<section id="form" aria-labelledby="t-form">
+<div class="card">
+<div id="formWrap">
+<h2 id="t-form">השאירו פרטים</h2>
+<form id="lead" novalidate aria-labelledby="t-form">
+<div class="field"><label for="name">שם<span class="sr-only"> (שדה חובה)</span></label><input id="name" name="name" aria-required="true" type="text" autocomplete="name" required></div>
+<div class="field"><label for="email">כתובת מייל<span class="sr-only"> (שדה חובה)</span></label><input id="email" name="email" aria-required="true" type="email" dir="ltr" autocomplete="email" required></div>
+<div class="field"><label for="phone">טלפון ליצירת קשר<span class="sr-only"> (שדה חובה)</span></label><input id="phone" name="phone" aria-required="true" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="10" dir="ltr" autocomplete="tel" required></div>
+<div class="field"><label for="site">כתובת אתר<span class="sr-only"> (שדה חובה)</span></label><input id="site" name="site" aria-required="true" type="text" inputmode="url" dir="ltr" autocomplete="url" required></div>
+<button class="btn" type="submit" id="send">שליחה</button>
+<p class="msg err" id="err" role="alert" hidden></p>
+</form>
+</div>
+<div id="thanks" class="thanks" hidden>
+<h2 id="thanks-h" tabindex="-1">תודה, הפרטים נשמרו בהצלחה</h2>
+<p>בקשתכם התקבלה והועברה לבדיקה. ניצור עמכם קשר תוך 2 ימי עסקים.</p>
+</div>
+</div>
+</section>
+<section id="accessibility" aria-labelledby="t-acc">
+<div class="card">
+<h2 id="t-acc">הצהרת נגישות</h2>
+<p>ייעוץ לעסקים בע״מ פועלת להנגשת דף זה לאנשים עם מוגבלות, בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג-2013, ולתקן הישראלי ת״י 5568 ברמה AA.</p>
+<h3>התאמות שבוצעו</h3>
+<ul>
+<li>ניווט ושימוש בטופס באמצעות המקלדת, כולל סימון תיבות הסימון.</li>
+<li>תוויות לשדות הטופס, סימון שדות חובה והודעות שגיאה שנקראות בקורא מסך.</li>
+<li>מבנה כותרות ברור וכיוון מימין לשמאל.</li>
+<li>ניגודיות צבעים בין טקסט לרקע, ובין מסגרות השדות לרקע.</li>
+<li>תצוגה בהירה וכהה לפי הגדרת המכשיר, התאמה למסך טלפון והגדלת טקסט.</li>
+<li>הפחתת תנועה לפי הגדרת המכשיר.</li>
+<li>כפתור נגישות צף, עם הגדלת טקסט, ניגודיות גבוהה והדגשת קישורים.</li>
+</ul>
+<h3>מגבלות</h3>
+<p>הדף לא עבר בדיקת נגישות מוסמכת, ולא נבדק בפועל עם קורא מסך. ייתכן שיימצאו בו ליקויי נגישות. אם תמצאו ליקויי נגישות, ניתן לפנות אל רכזת הנגישות בפרטים שלהלן.</p>
+<h3>פניות בנושא נגישות</h3>
+<p>נתקלתם בקושי, או מעוניינים בהתאמה נוספת? אפשר לפנות אל רכזת הנגישות, שלומית ברדוגו:<br>טלפון: 0506458078<br>דואר אלקטרוני: <bdi dir="ltr">shlomit.bardugo@gmail.com</bdi><br>דואר: ייעוץ לעסקים בע״מ, ת.ד. 6090, מיקוד 2277003</p>
+<p>הצהרה זו עודכנה ב־25 באוקטובר 2026.</p>
+</div>
+</section>
+</main>
+
+<button type="button" id="a11yBtn" aria-label="תפריט נגישות" aria-expanded="false" aria-controls="a11yPanel"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="4.5" r="2"/><path d="M20.5 7.5h-17a1 1 0 0 0 0 2H9v4.2l-2.6 6.3a1 1 0 1 0 1.85.77L11 14.5h2l2.75 6.77a1 1 0 1 0 1.85-.77L15 13.7V9.5h5.5a1 1 0 0 0 0-2z"/></svg></button>
+<div id="a11yPanel" role="region" aria-label="התאמות נגישות" hidden>
+<p class="wt">התאמות נגישות</p>
+<p class="wl" id="a11ySize" role="status">גודל טקסט: 100%</p>
+<div class="wrow"><button type="button" class="wbtn" id="a11yBig">הגדלת טקסט</button><button type="button" class="wbtn" id="a11ySmall">הקטנת טקסט</button></div>
+<button type="button" class="wbtn" id="a11yHc" aria-pressed="false" style="margin-top:8px">ניגודיות גבוהה</button>
+<button type="button" class="wbtn" id="a11yUl" aria-pressed="false">הדגשת קישורים</button>
+<a class="wbtn" href="#accessibility" id="a11yStmt">הצהרת נגישות</a>
+<button type="button" class="wbtn" id="a11yReset">איפוס התאמות</button>
+</div>
+
+<script>
+// כתובת קליטה לשליחת הטופס. השאירו ריק עד שתוגדר כתובת; כל עוד היא ריקה, השליחה תיכשל ותוצג הודעת שגיאה.
+var ENDPOINT = "";
+var MAIL_TO = "shlomit.bardugo@gmail.com";
+var f = document.getElementById("lead"), err = document.getElementById("err"), btn = document.getElementById("send");
+function showErr(t, el){ err.textContent = t; err.hidden = false; if(el){ [].concat(el).forEach(function(x){ x.setAttribute("aria-invalid","true"); x.setAttribute("aria-describedby","err"); }); } }
+function showThanks(){ document.getElementById("formWrap").hidden = true; document.getElementById("thanks").hidden = false; document.getElementById("thanks-h").focus(); }
+document.querySelectorAll(".checks input").forEach(function(c){ c.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); c.click(); } }); });
+f.phone.addEventListener("input", function(){ var d = f.phone.value.replace(/\D/g, ""); if(d !== f.phone.value) f.phone.value = d; });
+document.getElementById("cta2").addEventListener("click", function(){ setTimeout(function(){ f.name.focus({preventScroll:true}); }, 60); });
+f.addEventListener("submit", function(e){
+  e.preventDefault();
+  err.hidden = true;
+  f.querySelectorAll("[aria-invalid]").forEach(function(el){ el.removeAttribute("aria-invalid"); el.removeAttribute("aria-describedby"); });
+  var name = f.name.value.trim(), email = f.email.value.trim(), phone = f.phone.value.trim(), site = f.site.value.trim();
+  var missing = [];
+  if(!name) missing.push([f.name, "שם"]);
+  if(!email) missing.push([f.email, "אימייל"]);
+  if(!phone) missing.push([f.phone, "טלפון"]);
+  if(!site) missing.push([f.site, "כתובת אתר"]);
+  if(missing.length){
+    var names = missing.map(function(m){ return m[1]; });
+    var list = names.length > 1 ? names.slice(0, -1).join(", ") + " ו" + names[names.length - 1] : names[0];
+    showErr("שדה חובה, אנא מלא/י " + list + ".", missing.map(function(m){ return m[0]; }));
+    missing[0][0].focus(); return;
+  }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showErr("אנא הזינו כתובת מייל תקינה.", f.email); f.email.focus(); return; }
+  if(!/^0\d{8,9}$/.test(phone)){ showErr("אנא הזינו מספר טלפון תקין, ספרות בלבד.", f.phone); f.phone.focus(); return; }
+  var siteOk = false;
+  try{ var u = new URL(site.toLowerCase().indexOf("http") === 0 ? site : "https://" + site); siteOk = /\.[^.]{2,}$/.test(u.hostname); if(siteOk && site.toLowerCase().indexOf("http") !== 0) site = u.href; }catch(x){}
+  if(!siteOk){ showErr("אנא הזינו כתובת אתר תקינה.", f.site); f.site.focus(); return; }
+  var checks = {};
+  document.querySelectorAll(".checks input").forEach(function(c){ checks[c.name] = c.checked; });
+  btn.disabled = true;
+  var fail = function(){
+    btn.disabled = false;
+    showErr("השליחה לא הצליחה. אנא נסו שוב בעוד מספר דקות. אם הבעיה נמשכת, פנו אלינו בדואר אלקטרוני.");
+  };
+  if(!ENDPOINT){
+    var lines = ["שם: " + name, "מייל: " + email, "טלפון: " + phone, "כתובת אתר: " + site];
+    document.querySelectorAll(".checks input").forEach(function(c){ lines.push(c.parentNode.textContent.trim() + ": " + (c.checked ? "כן" : "לא")); });
+    try{ window.location.href = "mailto:" + MAIL_TO + "?subject=" + encodeURIComponent("פנייה לפתיחת ספק אינטרנט") + "&body=" + encodeURIComponent(lines.join("\n")); }catch(x){ fail(); return; }
+    showThanks();
+    return;
+  }
+  fetch(ENDPOINT, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({name:name, email:email, site:site, phone:phone, checks:checks})})
+    .then(function(r){
+      if(!r.ok) throw new Error("bad");
+      showThanks();
+    })
+    .catch(fail);
+});
+(function(){
+  var root = document.documentElement, KEY = "a11y-prefs", st = {size:0, hc:false, ul:false}, sizes = [100,110,125,150];
+  var $ = function(i){ return document.getElementById(i); };
+  var btn2 = $("a11yBtn"), panel = $("a11yPanel"), lbl = $("a11ySize"), hc = $("a11yHc"), ul = $("a11yUl");
+  try{ var v = JSON.parse(localStorage.getItem(KEY) || "null"); if(v && typeof v.size === "number" && sizes[v.size]) st = {size:v.size, hc:!!v.hc, ul:!!v.ul}; }catch(x){}
+  function apply(){
+    root.style.fontSize = sizes[st.size] + "%";
+    root.classList.toggle("hc", st.hc); root.classList.toggle("ul-links", st.ul);
+    hc.setAttribute("aria-pressed", String(st.hc)); ul.setAttribute("aria-pressed", String(st.ul));
+    lbl.textContent = "גודל טקסט: " + sizes[st.size] + "%";
+    try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(x){}
+  }
+  function setOpen(o){ panel.hidden = !o; btn2.setAttribute("aria-expanded", String(o)); }
+  btn2.addEventListener("click", function(){ var o = panel.hidden; setOpen(o); if(o) $("a11yBig").focus(); });
+  $("a11yBig").addEventListener("click", function(){ if(st.size < sizes.length - 1){ st.size++; apply(); } });
+  $("a11ySmall").addEventListener("click", function(){ if(st.size > 0){ st.size--; apply(); } });
+  hc.addEventListener("click", function(){ st.hc = !st.hc; apply(); });
+  ul.addEventListener("click", function(){ st.ul = !st.ul; apply(); });
+  $("a11yReset").addEventListener("click", function(){ st = {size:0, hc:false, ul:false}; apply(); });
+  $("a11yStmt").addEventListener("click", function(){ setOpen(false); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && !panel.hidden){ setOpen(false); btn2.focus(); } });
+  document.addEventListener("click", function(e){ if(!panel.hidden && !panel.contains(e.target) && !btn2.contains(e.target)) setOpen(false); });
+  apply();
+})();
+</script>
+<script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2026/10/21/16/20261021162738-U24KFYV9.js" defer></script>
+</body>
+</html>
